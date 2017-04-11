@@ -48,17 +48,20 @@ public class AirBalloonVsThornsDemo extends GameScreen {
 
     public AirBalloonVsThornsDemo() {
         super(800, 600);
-
-//        AirBalloon_anim = new Animation(70);
-//        AFrameOnImage f;
-//        f = new AFrameOnImage(0, 0, 60, 60);
-//        AirBalloon_anim.AddFrame(f);
-//        f = new AFrameOnImage(60, 0, 60, 60);
-//        AirBalloon_anim.AddFrame(f);
-//        f = new AFrameOnImage(120, 0, 60, 60);
-//        AirBalloon_anim.AddFrame(f);
-//        f = new AFrameOnImage(60, 0, 60, 60);
-//        AirBalloon_anim.AddFrame(f);
+        try {
+            AirBalloon_image = ImageIO.read(new File("Assets/airballoon_1.png"));
+        } catch (IOException ex) {}
+        
+        AirBalloon_anim = new Animation(70);
+        AFrameOnImage f;
+        f = new AFrameOnImage(0, 0, 60, 60);
+        AirBalloon_anim.AddFrame(f);
+        f = new AFrameOnImage(60, 0, 60, 60);
+        AirBalloon_anim.AddFrame(f);
+        f = new AFrameOnImage(120, 0, 60, 60);
+        AirBalloon_anim.AddFrame(f);
+        f = new AFrameOnImage(60, 0, 60, 60);
+        AirBalloon_anim.AddFrame(f);
 
         AirBalloon = new AirBalloon(350, 250, 50, 50);
         BackGround = new Background();
@@ -87,8 +90,8 @@ public class AirBalloonVsThornsDemo extends GameScreen {
         if (CurrentScreen == BEGIN_SCREEN) {
             resetGame();
         } else if (CurrentScreen == GAMEPLAY_SCREEN) {
-
-//            AirBalloon_anim.Update_Me(deltaTime);
+            if(AirBalloon.getLive())
+            AirBalloon_anim.Update_Me(deltaTime);
             AirBalloon.update(deltaTime);
             ground.update();
             ThornGroup.update();
@@ -113,7 +116,7 @@ public class AirBalloonVsThornsDemo extends GameScreen {
             if (AirBalloon.getPosY() + AirBalloon.getH() > ground.getYGround()) {
                 CurrentScreen = GAMEOVER_SCREEN;
             }
-            //Khong cho AirBalloon bay qua man hinh game
+            //Khong cho AirBalloon bay vuot man hinh game
             if (AirBalloon.getPosY() < 0) {
                 AirBalloon.setVt(0);
             }
@@ -135,17 +138,17 @@ public class AirBalloonVsThornsDemo extends GameScreen {
         }
 
         if (AirBalloon != null) {
-            //AirBalloon_anim.PaintAnims((int) AirBalloon.getPosX(), (int) AirBalloon.getPosY(), AirBalloon_image, g2, 0, 0);
-            AirBalloon.paint(g2);
+            AirBalloon_anim.PaintAnims((int) AirBalloon.getPosX(), (int) AirBalloon.getPosY(), AirBalloon_image, g2, 0, 0);
+            //AirBalloon.paint(g2);
         }
 //        if (AirBalloon != null) {
 //            AirBalloon.paint(g2);
 //        }
-//        if (bird.getIsFlying()) {
-//            bird_anim.PaintAnims((int) bird.getPosX(), (int) bird.getPosY(), birds, g2, 0, -1);
-//        } else {
-//            bird_anim.PaintAnims((int) bird.getPosX(), (int) bird.getPosY(), birds, g2, 0, 0);
-//        }
+        if (AirBalloon.getIsFlying()) {
+            AirBalloon_anim.PaintAnims((int) AirBalloon.getPosX(), (int) AirBalloon.getPosY(), AirBalloon_image, g2, 0, 0);
+        } else {
+            AirBalloon_anim.PaintAnims((int) AirBalloon.getPosX(), (int) AirBalloon.getPosY(), AirBalloon_image, g2, 0, 0);
+        }
 
         if (CurrentScreen == BEGIN_SCREEN) {
             g2.setColor(Color.red);
